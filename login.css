@@ -1,0 +1,105 @@
+body{
+	font-family: 'Poppins', sans-serif;
+	background: linear-gradient(270deg, #21d4fd, #b721ff, #5a5f7b);
+	background-size: 600% 600%;
+	padding:10px;
+
+-webkit-animation: gradient 5s ease infinite;
+-moz-animation: gradient 5s ease infinite;
+animation: gradient 5s ease infinite;
+}
+
+@-webkit-keyframes gradient {
+    0%{background-position:0% 51%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 51%}
+}
+@-moz-keyframes gradient {
+    0%{background-position:0% 51%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 51%}
+}
+@keyframes gradient { 
+    0%{background-position:0% 51%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 51%}
+}
+
+
+.card{
+	background-color: white;
+	border-radius: 8px;
+	padding:20px;
+	box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+input{
+	font-family: 'Poppins', sans-serif;
+	border:none;
+	width:92%;
+	outline: none;
+	padding:10px;
+	border-bottom: 2px solid grey;
+}
+
+input:focus{
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-image:linear-gradient(to right, #21d4fd, #b721ff) 25%;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 3.5rem;
+}
+.form-placeholder {
+  position: absolute;
+  left:0;
+  padding: 10px 0px 0px 13px;
+  transition: all 200ms;
+  opacity: 0.7;
+}
+
+.form:focus + .form-placeholder,
+.form:valid + .form-placeholder {
+  font-size: 75%;
+  transform: translate3d(0, -100%, 0);
+  opacity: 1;
+}
+input[type=password]{
+	width:87%;
+}
+#eye{
+	cursor: pointer;
+}
+button{
+	padding:15px;
+	width: 70%;
+	border:0;
+	position: relative;
+	border-radius: 100px;
+	cursor: pointer;
+	color: white;
+	background-image:linear-gradient(to right, #21d4fd, #b721ff);
+  	z-index: 1;
+}
+button::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(to left, #21d4fd, #b721ff);
+  z-index: -1;
+  border-radius: 100px;
+  transition: opacity .25s linear;
+  opacity: 0;
+}
+button:hover::before {
+  opacity: 1;
+  border-radius: 100px;
+}
+span{
+	font-size: 15px;
+}
