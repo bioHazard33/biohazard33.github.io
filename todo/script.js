@@ -28,13 +28,14 @@ window.onload = () => {
 function addTask(obj = undefined) {
     let curr = document.createElement("li");
     let tn;
+    let text=input.value.trim()
     let to_be_stored = { task: undefined, status: undefined };
     if (obj.task != undefined) {
         tn = document.createTextNode(obj.task);
     } else {
-        if (input.value.length > 0) {
-            tn = document.createTextNode(input.value);
-            to_be_stored.task = input.value;
+        if (text.length > 0) {
+            tn = document.createTextNode(text);
+            to_be_stored.task = text;
         } else return;
     }
     var span = document.createElement("span");
