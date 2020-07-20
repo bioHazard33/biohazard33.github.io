@@ -90,11 +90,9 @@ function updateID(){
     for(let i=0;i<stored_tasks.length;i++){
         stored_tasks[i].id=i;
     }
-    console.log(stored_tasks)
     li=document.querySelectorAll('li')
     for(let i=0;i<li.length;i++){
         li[i].id=""+i;
-        console.log(li[i]);
     }
     localStorage.setItem('tasks',JSON.stringify(stored_tasks))
 }
