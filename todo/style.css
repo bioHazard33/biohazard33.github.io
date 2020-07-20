@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap');
+
+*{
+    padding:0;
+    margin:0;
+    font-family:'Open Sans',monospace;
+    box-sizing: border-box;
+}
+h2{
+    margin:20px 0;
+}
+.container{
+    background:#f6f6f6;
+    padding:10px 10%;
+    min-height:100vh;
+}
+h3{
+    margin:20px 0;
+}
+.input-container{
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+}
+.input,.task{
+    width:100%;
+    padding:10px 20px;
+    border:0;
+    border-radius: 10px;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.10);
+}
+.input{
+    width:90%;
+}
+.add{
+    width:10%;
+    border:0;
+    margin-left:5px;
+    border-radius: 10px;
+    background: #4285f4;
+    color:white;
+    cursor: pointer;
+    transition: 0.35s ease;
+}
+.add:hover{
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.15);
+}
+.checked{
+    text-decoration: line-through;
+    font-size: smaller;
+}
+.task{
+    margin-top:20px;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+}
+.status,i{
+    margin:auto;
+}
+.buttons{
+    display: flex;
+    width: 100px;
+    justify-content: space-between;
+}
+.buttons input,i{
+    cursor: pointer;
+}
