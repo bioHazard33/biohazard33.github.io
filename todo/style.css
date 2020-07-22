@@ -59,6 +59,13 @@ h3{
 .status,i{
     margin:auto;
 }
+span i{
+    color: red;
+    transition: 0.10s ease-in-out;
+}
+span i:hover{
+    transform: scale(1.1);
+}
 .buttons{
     display: flex;
     width: 100px;
