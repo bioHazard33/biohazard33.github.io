@@ -168,8 +168,8 @@ const Ship = (function () {
         let laser_sound = sceneInstance.sound.add("beam_sound");
         laser_sound.play();
 
-        laser.displayWidth = 20;
-        laser.displayHeight = 80;
+        laser.displayWidth = 20 ;
+        laser.displayHeight = 80 ;
 
         let shipRotation =
             Phaser.Math.RadToDeg(
