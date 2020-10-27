@@ -21,6 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let ship=document.querySelector('ship')
         
-        window.location.href="/game.html" 
+        window.location.href="/type-attack/game.html" 
     });
 });
