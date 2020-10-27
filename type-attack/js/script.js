@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('difficulty',difficulty)
 
         let zen=document.querySelector('#zen').checked
+
         if(zen===true){
             localStorage.setItem('zen','true')
         }
@@ -19,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
         bg.style.zIndex=3;
 
         let ship=document.querySelector('ship')
-        
         
         window.location.href="/game.html" 
     });
