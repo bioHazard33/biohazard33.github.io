@@ -8,17 +8,7 @@ body{
     background-color: black;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-}
-#parent{
-    height:100%;
-    width:100%;
-    display:flex;
-    justify-content: center;
-}
-canvas{
-    top:0;
 }
 #myVideo {
     position: fixed;
@@ -27,35 +17,4 @@ canvas{
     bottom: 0;
     min-width: 100%;
     min-height: 100%;
-}
-.keyboard-btn{
-    margin:2px;
-    border:2px solid #7a3af2;
-    padding:4px 8px;
-    color:#7a3af2;
-    background-color: black;
-    border-radius: 5px;
-}
-#keyboard{
-    max-width:100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    display: none;
-}
-.keyboard-row{
-    margin:10px 0 0 0;
-    max-width:100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-.third{
-    margin-bottom: 10px;
-}
-
-@media screen and (max-width: 768px) {
-    #keyboard{
-        display: flex;
-    }
 }

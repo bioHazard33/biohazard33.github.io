@@ -5,7 +5,6 @@ const Game = (function () {
     this.config = {
         type: Phaser.AUTO,
         width: 500,
-        parent: "parent",
         height: "100vh",
         physics: {
             default: "arcade",
@@ -53,13 +52,16 @@ const Game = (function () {
 })();
 
 const Words = (function () {
-    let difficulty = localStorage.getItem("difficulty");
-    if (!difficulty || difficulty === "medium") {
-        this.words = medium;
-    } else if (difficulty === "easy") {
-        this.words = easy;
-    } else {
-        this.words = hard;
+
+    let difficulty=localStorage.getItem('difficulty')
+    if(!difficulty || difficulty==="medium"){
+        this.words=medium;
+    }
+    else if(difficulty==="easy"){
+        this.words=easy;
+    }
+    else{
+        this.words=hard;
     }
 
     this.length = words.length;
@@ -126,6 +128,7 @@ const Ship = (function () {
         lives.text = currLives;
 
         if (currLives == 0) {
+
             let gameover = Game.getSceneInstance().sound.add("gameover");
             gameover.play();
 
@@ -139,8 +142,7 @@ const Ship = (function () {
                         : 0
                 )
             );
-            window.location.reload();
-            window.location.href = "/type-attack/";
+            window.location.href="/";
         }
     }
 
@@ -266,12 +268,12 @@ function preload() {
     this.load.audio("error", "./assets/sounds/error.mp3");
     this.load.audio("gameover", "./assets/sounds/gameover.wav");
 
-    this.load.video("bg", "./assets/videos/bg3.mp4", "loadeddata", false, true);
+    this.load.video("bg","./assets/videos/bg3.mp4",'loadeddata',false,true)
 }
 
 function create() {
-    let bg = this.add.video(300, 300, "bg");
-    bg.play(true);
+    let bg=this.add.video(300,300,"bg")
+    bg.play(true)
 
     const shipObject = this.add.image(
         this.game.canvas.width / 2,
@@ -290,7 +292,7 @@ function create() {
     let lives_text = this.make.text({
         x: this.game.canvas.width - 35,
         y: 20,
-        text: localStorage.getItem("zen") === "true" ? 999 : 3,
+        text: localStorage.getItem('zen')==='true' ? 999 : 3,
         style: {
             fontFamily: "Century Gothic",
             fontSize: "16px",
@@ -383,21 +385,8 @@ function update() {
 }
 
 window.onload = () => {
-    let screenHeight = window.innerHeight;
-    let screenWidth = window.innerWidth;
-    let canvasHeight;
-    let canvasWidth;
-
-    if (screenWidth <= 768) {
-        canvasHeight = "100%";
-        canvasWidth = "100vw";
-    } else {
-        canvasHeight = "100vh";
-        canvasWidth = 500;
-    }
-
     setInterval(Words.getRandomWord, 4000);
-    const game = Game.getGameInstance(canvasHeight, canvasWidth);
+    const game = Game.getGameInstance();
 
     window.onkeypress = (event) => {
         if (event.charCode >= 97 && event.charCode <= 122) {
@@ -406,16 +395,4 @@ window.onload = () => {
             Asteroid.registerCharacter(event.key.toLowerCase());
         }
     };
-
-    let keyboard_btns_ele = document.querySelectorAll(".keyboard-btn");
-    keyboard_btns_ele.forEach((ele) => {
-        ele.addEventListener("click", () => {
-            let e = new KeyboardEvent("keypress", {
-                char: ele.innerHTML,
-                key:ele.innerHTML,
-                charCode: ele.innerHTML.charCodeAt(0)
-            });
-            window.dispatchEvent(e)
-        });
-    });
 };
