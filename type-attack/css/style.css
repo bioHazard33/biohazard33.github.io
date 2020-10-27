@@ -1,0 +1,81 @@
+*{
+    color: white;
+    margin:0;
+    padding: 0;
+    transition: all 0.3s;
+}
+@font-face{
+    font-family: 'Player1Up';
+    src:url('../assets//fonts/Player1UpBlack-YRDv.ttf')
+}
+body{
+    background-color: black;
+    height:100vh;
+    width:100vw;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+#heading{
+    font-family: 'Player1Up';
+    font-size: 48px;
+    margin:0;
+    padding:20px !important;
+}
+#tagline{
+    font-family: 'Player1Up';
+    font-size: 24px;
+    letter-spacing: 2px;
+    margin: 0;
+    padding-bottom: 60px;
+}
+#start-btn{
+    margin: 10px;
+    margin-bottom: 50px;
+    padding:10px;
+    border:2px solid white;
+    font-size: 32px;
+    background: none;
+    color: white;
+    cursor: pointer;
+    font-family: 'Player1Up';
+    border-radius:20px;
+    transition: all 0.3s ease-in-out;
+}
+#start-btn:hover{
+    background: white;
+    color: black;
+}
+.input-field{
+    font-family: 'Player1Up';
+    margin:20px;
+}
+.input-field *{
+    margin:0;
+    font-family: 'Player1Up';
+    letter-spacing: 3px;
+}
+span{
+    margin: 30px 10px;
+    font-family: 'Player1Up';
+    justify-content: space-between;
+    width:300px;
+    display: flex;
+}
+#myVideo {
+    position: fixed;
+    right: 0;
+    z-index: -1;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+}
+img{
+    margin-top: 40px;
+    transition: all 0.3s;
+}
+.ship{
+    z-index: 4;
+}
