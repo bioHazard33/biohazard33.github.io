@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
         bg.style.zIndex=3;
 
         let ship=document.querySelector('ship')
-        
         window.location.href="/type-attack/game.html" 
     });
 });
