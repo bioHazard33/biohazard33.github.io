@@ -53,6 +53,7 @@ canvas{
 .third{
     margin-bottom: 10px;
 }
+audio { display:none;}
 
 @media screen and (max-width: 768px) {
     #keyboard{

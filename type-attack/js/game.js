@@ -140,7 +140,7 @@ const Ship = (function () {
                 )
             );
             window.location.reload();
-            window.location.href = "/type-attack/" ;
+            window.location.href = "/";
         }
     }
 
