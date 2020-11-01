@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },1000)
 
         setTimeout(()=>{
-            window.location.href="/game.html"
+            window.location.href="/type-attack/game.html"
         },3000) 
     });
 });
