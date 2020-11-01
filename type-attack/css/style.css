@@ -77,6 +77,8 @@ img{
     transition: all 0.3s;
 }
 .ship{
+    position: absolute;
+    bottom:5%;
     z-index: 4;
 }
 audio { display:none;}

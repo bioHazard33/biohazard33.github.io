@@ -10,6 +10,9 @@ const Game = (function () {
         physics: {
             default: "arcade",
         },
+        dom: {
+            createContainer: true,
+        },
         scale: {
             mode: Phaser.Scale.FIT,
         },
@@ -29,14 +32,54 @@ const Game = (function () {
         return sceneInstance;
     }
 
-    function rotateObject(object, initialAngle, finalAngle, duration) {
+    function rotateObject(object, initialAngle, finalAngle, duration, repeat = 0) {
         let rotateObj = sceneInstance.tweens.add({
             targets: object,
             angle: { from: initialAngle, to: finalAngle },
             ease: "Linear",
             duration,
-            repeat: 0,
+            repeat,
             yoyo: false,
+        });
+    }
+
+    function growObject(x, y, radius, duration, color = 0x5c50e3, thickness = 4, alpha = 1) {
+        let graphics = sceneInstance.add.graphics();
+        graphics.lineStyle(thickness, color, alpha);
+
+        sceneInstance.tweens.addCounter({
+            from: 0,
+            to: radius,
+            duration,
+            yoyo: false,
+            onUpdate: function (tween) {
+                let ctr = tween.getValue();
+
+                graphics.clear();
+
+                graphics.lineStyle(thickness, color, alpha - ctr / radius);
+                graphics.strokeCircle(x, y, ctr);
+            },
+        });
+    }
+
+    function shrinkObject(x,y,radius,duration,color = 0x5c50e3, thickness = 4, alpha = 0){
+        let graphics = sceneInstance.add.graphics();
+        graphics.lineStyle(thickness, color, alpha);
+
+        sceneInstance.tweens.addCounter({
+            from: radius,
+            to: 0,
+            duration,
+            yoyo: false,
+            onUpdate: function (tween) {
+                let ctr = tween.getValue();
+
+                graphics.clear();
+
+                graphics.lineStyle(thickness, color, alpha + ctr / radius);
+                graphics.strokeCircle(x, y, ctr);
+            },
         });
     }
 
@@ -49,7 +92,7 @@ const Game = (function () {
         return gameInstance;
     }
 
-    return { getGameInstance, setSceneInstance, getSceneInstance, rotateObject };
+    return { getGameInstance, setSceneInstance, getSceneInstance, rotateObject, growObject,shrinkObject };
 })();
 
 const Words = (function () {
@@ -100,6 +143,7 @@ const Ship = (function () {
     this.lives;
     this.score;
     this.currAngle = 0;
+    this.shield=null;
 
     function getInstance() {
         if (!ship) {
@@ -110,6 +154,7 @@ const Ship = (function () {
 
     function setInstance(shipObject) {
         ship = shipObject;
+        ship.setOrigin(0.5, 0.5);
     }
 
     function getLives() {
@@ -130,15 +175,10 @@ const Ship = (function () {
             gameover.play();
 
             alert("Game Over, Try again next time.");
-            localStorage.setItem(
-                "highScore",
-                Math.max(
-                    parseInt(score.text),
-                    localStorage.getItem("highScore")
+            localStorage.setItem("highScore", Math.max(parseInt(score.text), localStorage.getItem("highScore")
                         ? parseInt(localStorage.getItem("highScore"))
                         : 0
-                )
-            );
+            ));
             window.location.reload();
             window.location.href = "/";
         }
@@ -154,6 +194,57 @@ const Ship = (function () {
 
     function incrementScore() {
         score.text = parseInt(score.text) + 10;
+        if(parseInt(score.text) % 100 === 0){
+            activateShields();
+        }
+    }
+
+    function addShieldCollider(asteroidGroup){
+        let sceneInstance=Game.getSceneInstance()
+        if(shield)
+            sceneInstance.physics.add.collider(asteroidGroup, shield, (a, b) => {
+                let impact = sceneInstance.sound.add("impact_sound_big");
+                impact.play();
+                Asteroid.destroyAsteroidByGroup(asteroidGroup);
+        });
+    }
+
+    function activateShields(duration=20000){
+        Game.growObject(ship.x,ship.y,300,3000);
+        let sceneInstance=Game.getSceneInstance();
+
+        let shield_up=sceneInstance.sound.add('shield_up')
+        shield_up.play()
+
+        setTimeout(()=>{
+            shield = sceneInstance.add.image(ship.x,ship.y,'barrier');
+            shield.displayHeight=300;
+            shield.displayWidth=300;
+
+            sceneInstance.physics.world.enable(shield);
+            shield.body.setImmovable(true)
+
+            let asteroidGroups=Asteroid.getAsteroidGroups();
+            asteroidGroups.forEach((asteroidGroup)=>{
+                addShieldCollider(asteroidGroup['asteroidGroup'])
+            })
+
+            Game.rotateObject(shield,0,360,150,-1);
+            deactivateShields(duration)
+
+        },1500)
+    }
+
+    function deactivateShields(duration){
+        setTimeout(()=>{
+            let shield_down=Game.getSceneInstance().sound.add('shield_down')
+            shield_down.play()
+            
+            Game.shrinkObject(ship.x,ship.y,300,3000);
+            setTimeout(()=>{
+                shield.destroy()
+            },3000)
+        },duration)
     }
 
     function fireWeapon(asteroidGroup) {
@@ -202,15 +293,11 @@ const Ship = (function () {
     }
 
     return {
-        getInstance,
-        setInstance,
-        getLives,
-        decrementLives,
-        setLives,
-        getScore,
-        incrementScore,
-        setScore,
+        getInstance,setInstance,
+        getLives,decrementLives,setLives,
+        getScore,incrementScore,setScore,
         fireWeapon,
+        addShieldCollider
     };
 })();
 
@@ -230,6 +317,11 @@ const Asteroid = (function () {
 
     function destroyAsteroidByGroup(asteroidGroup) {
         asteroidGroups = asteroidGroups.filter((ele) => ele["asteroidGroup"] !== asteroidGroup);
+        let x = asteroidGroup.getChildren()[0].x;
+        let y = asteroidGroup.getChildren()[0].y;
+
+        createExplosion(x, y);
+
         asteroidGroup.clear(true, true);
     }
 
@@ -247,7 +339,15 @@ const Asteroid = (function () {
         error.play();
     }
 
-    return { addAsteroid, registerCharacter, destroyAsteroidByGroup, destroyAsteroidByIndex };
+    function createExplosion(x, y, radius = 50) {
+        Game.growObject(x, y, radius, 300);
+    }
+
+    function getAsteroidGroups(){
+        return asteroidGroups;
+    }
+
+    return { addAsteroid, registerCharacter, destroyAsteroidByGroup, destroyAsteroidByIndex, getAsteroidGroups };
 })();
 
 function preload() {
@@ -259,15 +359,18 @@ function preload() {
     this.load.svg("highscore", "./assets/images/highscore.svg", { height: 25, width: 25 });
     this.load.svg("score", "./assets/images/score.svg", { height: 25, width: 25 });
     this.load.image("beam", "./assets/images/beam.png");
+    this.load.image("barrier", "./assets/images/barrier.png");
 
     this.load.audio("beam_sound", "./assets/sounds/laser.mp3");
     this.load.audio("impact_sound_big", "./assets/sounds/impact1.mp3");
     this.load.audio("impact_sound_small", "./assets/sounds/impact2.mp3");
     this.load.audio("error", "./assets/sounds/error.mp3");
     this.load.audio("gameover", "./assets/sounds/gameover.wav");
+    this.load.audio("shield_up", "./assets/sounds/shield_up.mp3");
+    this.load.audio("shield_down", "./assets/sounds/shield_down.mp3");
 
     this.load.video("bg", "./assets/videos/bg3.mp4", "loadeddata", false, true);
-}
+    }
 
 function create() {
     let bg = this.add.video(300, 300, "bg");
@@ -377,6 +480,7 @@ function update() {
             Ship.decrementLives();
         });
 
+        Ship.addShieldCollider(asteroidGroup)
         Asteroid.addAsteroid({ asteroidGroup, text: asteroid_text.text });
         Words.setNewWordStatus(false);
     }
@@ -396,7 +500,10 @@ window.onload = () => {
         canvasWidth = 500;
     }
 
-    setInterval(Words.getRandomWord, 4000);
+    let audio = document.getElementById("bgAudio");
+    audio.volume = 0.3;
+
+    setInterval(Words.getRandomWord, 3000);
     const game = Game.getGameInstance(canvasHeight, canvasWidth);
 
     window.onkeypress = (event) => {
@@ -410,12 +517,14 @@ window.onload = () => {
     let keyboard_btns_ele = document.querySelectorAll(".keyboard-btn");
     keyboard_btns_ele.forEach((ele) => {
         ele.addEventListener("click", () => {
+            
             let e = new KeyboardEvent("keypress", {
                 char: ele.innerHTML,
-                key:ele.innerHTML,
-                charCode: ele.innerHTML.charCodeAt(0)
+                key: ele.innerHTML,
+                charCode: ele.innerHTML.charCodeAt(0),
             });
-            window.dispatchEvent(e)
+            window.dispatchEvent(e);
+
         });
     });
 };
