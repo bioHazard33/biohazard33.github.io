@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>Type-Attack</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="./assets/favicon-16x16.png">
-        <link rel="stylesheet" href="./css/style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="./assets/favicon-16x16.png" />
+        <link rel="stylesheet" href="./css/style.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+        />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="./js/script.js"></script>
     </head>
     <body>
         <audio loop autoplay="true" src="./assets/sounds/bg.mp3" id="bgAudio"></audio>
 
-        <video autoplay muted loop id="myVideo"  class="bringForward">
-            <source src="./assets/videos/bg3.mp4" type="video/mp4">
+        <video autoplay muted loop id="myVideo" class="bringForward">
+            <source src="./assets/videos/bg3.mp4" type="video/mp4" />
         </video>
-        
+
         <h1 id="heading">Type Attack</h1>
         <h3 id="tagline">A game which tests your typing skills.</h3>
         <button id="start-btn">Start Game</button>
@@ -32,16 +35,27 @@
             <label>Choose Difficulty</label>
         </div>
         <span>
-        Zen Mode :
-        <div class="switch">
-            <label>
-              Off
-              <input type="checkbox" id="zen">
-              <span class="lever"></span>
-              On
-            </label>
-          </div>
+            Zen Mode :
+            <div class="switch">
+                <label>
+                    Off
+                    <input type="checkbox" id="zen" />
+                    <span class="lever"></span>
+                    On
+                </label>
+            </div>
         </span>
-        <img src="./assets/images/spaceship.svg" class="ship" height="50" width="50">
+        <img src="./assets/images/spaceship.svg" class="ship" height="50" width="50" />
     </body>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-003TXK3XLV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "G-003TXK3XLV");
+    </script>
 </html>
